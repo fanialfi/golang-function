@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"strings"
 	"time"
@@ -26,6 +27,25 @@ func main() {
 
 	fmt.Println(sekarang)
 	fmt.Printf("tipe data %T\n", sekarang)
+
+	fmt.Println()
+
+	// function multiple return
+	var hasil, hasilLagi = calculate(10.1)
+	fmt.Println(hasil, hasilLagi)
+	fmt.Println(math.Pow(2, 3))
+}
+
+// function multiple return
+func calculate(d float64) (float64, float64) {
+	// hitungg luas
+	var area = math.Pi * math.Pow(d/2.0, 1.0)
+
+	// hitung keliling
+	var circumference = math.Pi * d
+
+	// kembalikan 2 nilai
+	return area, circumference
 }
 
 // function return value

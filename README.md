@@ -67,3 +67,62 @@ Jika sebuah function dijalankan dan menemukan keyword `return` dimana dibawah ke
 Untuk function dengan parameter dimana tipe data parameter-nya sama, maka bisa cukup tuliskan tipe data-nya sekali saja di akhir.
 
 Selain digunakan untuk mengembalikan value keyword `return` juga bisa digunakan untuk menghentikan proses dalam sebuah blok kode dimana ia dipakai.
+
+Jika ada kebutuhan dimana data yang dikembalikan harus banyak, biasanya digunakan tipe data `map` atau `slice`,dan juga GO menyediakan kapabilitas bagi programmer untuk membuat function memiliki banyak return.
+
+contoh function mereturn banyak nilai :
+
+```go
+package main
+
+import (
+  "fmt"
+  "math"
+)
+
+func main(){
+  var dm float64 = 20
+  var luas, keliling = calculate(dm)
+
+  fmt.Printf("luas lingkaran : %f\n",luas)
+  fmt.Printf("keliling lingkaran : %f\n",keliling)
+}
+
+func calculate(diameter float64)(float64, float64){
+  // hitung luas
+  var luas = math.Pi * math.Pow(diameter / 2.0, 2.0)
+
+  // hitung keliling
+  var keliling = math.Pi * diameter
+
+  // kembalikan 2 nilai
+
+  return luas, keliling
+}
+```
+
+cara pendefinisian multiple return di atas yaitu dengan menuliskan tipe data apa saja yang akan di return dan disimpan didalam tanda kurung (`()`) setelah pendeklarasian paameter pada function, lalu untuk setiap tipe data return value dipisahkan dengan tanda koma `(float64, float64){}`.
+
+didalam keyword `return` harus dituliskan semua return value nya `return luas, keliling`
+
+lalu untuk penggunaan function tersebut jika ingin disimpan dalam sebuah variabel maka harus disimpan didalam 2 variabel `var luas, keliling = calculate(10)`.
+
+selain itu value yang dijadikan sebagai _return_ bisa didefinisikan diawal 
+
+```go
+func calculate(diameter float64)(luas float64, keliling float64){
+  var luas = math.Pi * math.Pow(diameter / 2.0, 2.0)
+  var keliling = math.Pi * diameter
+  return 
+}
+```
+
+beberapa hal baru diatas yang perlu dibahas
+
+- penggunaan function `math.Pow(a,b)`
+  
+  function `math.Pow()` digunakan untuk memangkatkan nilai, `math.Pow(2,3)` bararti 2 dipangkat 3 hasilnya 8 (`a ** b`) dimana function ini berada didalam package `math`.
+
+- penggunaan konstanta `math.Pi`
+
+  `math.Pi` adalah konstanta yang merepresentasikan **pi** atau **22/7**
