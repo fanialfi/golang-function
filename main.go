@@ -117,6 +117,9 @@ func main() {
 	fmt.Printf("\nname's with length 4\ntotal\t: %d\ndata\t: %v\n", len(nmLen4), nmLen4)
 }
 
+// alias skema closure
+type FilterCallback func(str string) bool // membuat skema function
+
 // function multiple return
 func calculate(d float64) (float64, float64) {
 	// hitungg luas
@@ -178,7 +181,7 @@ func findMax(numbers []int, max int) (int, func() []int) {
 }
 
 // function sebagai parameter
-func filter(data []string, callback func(str string) bool) []string {
+func filter(data []string, callback FilterCallback) []string {
 	var res []string
 
 	for _, each := range data {

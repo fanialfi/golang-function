@@ -361,3 +361,17 @@ func filter(data []string, callback func(str string) bool) []string {
 parameter `callback` diatas berupa function yang dideklarasikan bertipe `func(str string) bool`, closure function _callback_ tersebut dipanggil setiap perulangan yang ada didalam function `filter`.
 
 function `filter` sendiri merupakan function untuk filtering data array dengan data berada di parameter pertama, dengan kondisi filter bisa ditentukan sendiri.
+
+penggunaan function `strings.Contains()` diatas digunakan untuk mendeteksi apakah sebuah substring adalah bagian dari string.
+
+kita sudah tau bahwa function bisa dimanfaatkan sebagai parameter, contohnya seperti pada function `filter()` diatas, pada sebuah function yang skema-nya cukup panjang akan lebih baik jika menggunakan alias, apalagi jika ada parameter function lain yang juga menggunakan skema sama.
+
+membuat alias function berarti membuat skema tipe data baru, caranya dengan menggunakan keyword `type`, contoh :
+
+```go
+type FilterCallback func(str string) bool
+
+func filter(data []string, FilterCallback) []string {
+  // do nothing here
+}
+```
