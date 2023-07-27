@@ -207,3 +207,110 @@ func cetakHobies(nama string, hobi ...string)string{
 ```
 
 dari contoh di atas parameter variadic dikombinasikan dengan parameter biasa, jika mengkombinasikan parameter variadic dengan parameter biasa, maka syaratnya adalah parameter variadic tersebut harus diletakkan di paling akhir.
+
+
+## Closure
+
+`closure` adalah sebuah function yang bisa disimpan didalam sebuah variabel, dengan menerapkan konsep tersebut, kita bisa membuat function didalam function.
+
+`closure` merupakan _anonymous function_ atau function tanpa nama, biasa dimanfaatkan untuk membungkus suatu proses yang hanya dipakai sekali atau dipakai pada blok tertentu saja.
+
+sebuah function tanpa nama bisa disimpan didalam variabel, variabel yang menyimpan function tersebut memiliki sifat seperti function yang disimpan.
+
+```go
+package main
+
+import "fmt"
+
+func main(){
+  var getMinMax = func(slice []int)(int,int){
+    var max,min int
+
+    for i,e:=range slice{
+      if i == 0{
+        max,min = e,e
+      }else if e > max{
+        max = e
+      }else if e < min{
+        min = e
+      }
+    }
+    return max,min
+  }
+
+  var numbers = []int{1,2,3,4,5,6,7,8,9}
+  var max,min = getMinMax(numbers)
+  fmt.Printf("data : %v\nmin : %v\nmax : %v\n",numbers,min,max)
+}
+```
+
+dari contoh diatas sebuah function tanpa nama disimpan didalam variabel `getMinMax` dan dimana variabel tersebut berada didalam function `main()`.
+
+lalu cara pemanggilannya dengan memperlakukan variabel `getMinMax` sama seperti sebuah function.
+
+String template `%v` diatas digunakan untuk menampilkan value dari segala jenis data, template ini sering dimanfaatkan untuk menampilkan data yang tipe nya dinamis atau juga yang belum diketahui tipe data-nya.
+
+### Immediately-Invoked Function Expression (**IIFE**)
+
+closure jenis ini akan di eksekusi ketika dideklarasikan, biasanya digunakan untuk membungkus proses yang hanya akan dijalankan sekali, bisa mengembalikan value bisa juga tidak.
+
+contoh sederhana penerapa **IIFE** :
+
+```go
+package main
+
+func main(){
+  var numbers = []int{1,2,3,4,5,6,7,8,9,0}
+  var newNumbers = func(min int)[]int{
+    var new []int
+
+    for _, elm:=range numbers{
+      if elm < min{
+        continue
+      }
+      new = append(new, elm)
+    }
+    return new
+  }(4)
+
+  fmt.Println("original number",numbers)
+  fmt.Println("filtered number",newNumbers)
+}
+```
+
+ciri khas dari **IIFE** adalah adanya tanda kurung setelah deklarasi closure selesai, jika sebuah **IIFE** menerima sebuah parameter maka bisa juga dituliskan dalam tanda kurungnya.
+
+salahsatu keunikan closure lainnya adalah bisa dijadikan sebagai return value, dibawah ini merupakan contoh return value berupa function.
+
+```go
+package main
+
+import "fmt"
+
+func main(){
+  var max = 3
+  var numbers = []int{1,2,3,4,5,6,7,8,9,0}
+  var panjang, getNumbers = findMax(numbers,max)
+  var theNumbers = getNumbers()
+
+  fmt.Println("numbers :", numbers)
+  fmt.Printf("find \t: %d\n\n", max)
+
+  fmt.Println("found :", panjang)
+  fmt.Printf("value \t: %v\n",theNumbers)
+
+}
+func findMax(numbers []int, max int)(int, func() []int){
+  var res []int
+
+  for _,elm := range numbers{
+    if elm <= max {
+      res = append(res,elm)
+    }
+  }
+
+  return len(res), func() []int{
+    return res
+  }
+}
+```
