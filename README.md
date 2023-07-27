@@ -314,3 +314,50 @@ func findMax(numbers []int, max int)(int, func() []int){
   }
 }
 ```
+
+## function sebagai parameter
+
+selain function bisa digunakan sebagai return value, function bisa juga digunakan sebagai parameter.
+
+contoh penerapan :
+
+```go
+package main
+
+import (
+  "fmt"
+  "strings"
+)
+
+func main(){
+  var names = []string{"fani", "alfi", "fanialfi", "shadow", "wich", "petter", "john"}
+  var nmContainFani = filter(names, func(str string) bool {
+    return strings.Contains(str, "fani")
+  })
+  var nmLeng4 = filter(names, func(str string) bool {
+    return len(str) == 4
+  })
+
+  fmt.Println("original names :", names)
+  fmt.Printf("name contain fani\ntotal\t: %d\ndata\t: %v\n\n\n", len(nmContainFani), nmContainFani)
+
+  fmt.Println("original names :", names)
+  fmt.Printf("name with length 4\ntotal\t: %d\ndata\t: %v\n\n\n", len(nmLeng4), nmLeng4)
+}
+
+func filter(data []string, callback func(str string) bool) []string {
+  var res []string
+
+  for _, elm := range data {
+    if filtered := callback(elm); filtered {
+      res = append(res, elm)
+    }
+  }
+
+  return res
+}
+```
+
+parameter `callback` diatas berupa function yang dideklarasikan bertipe `func(str string) bool`, closure function _callback_ tersebut dipanggil setiap perulangan yang ada didalam function `filter`.
+
+function `filter` sendiri merupakan function untuk filtering data array dengan data berada di parameter pertama, dengan kondisi filter bisa ditentukan sendiri.

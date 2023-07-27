@@ -97,6 +97,24 @@ func main() {
 
 	fmt.Println("found :", ab)
 	fmt.Println("value :", bcNum)
+
+	// pemanggilan function sebagai parameter
+	fmt.Printf("\n############################################\n\n")
+	var names = []string{"fani", "alfi", "fanialfi", "shadow", "wich", "petter", "john"}
+	var nmIncFani = filter(names, func(str string) bool {
+		return strings.Contains(str, "fani")
+	})
+	var nmLen4 = filter(names, func(str string) bool {
+		return len(str) == 4
+	})
+
+	fmt.Println("original names :", names)
+	fmt.Printf("\nname's include fani\ntotal\t: %d\ndata\t: %v\n\n", len(nmIncFani), nmIncFani)
+
+	fmt.Println("----------------------------------------------------")
+
+	fmt.Println("original names :", names)
+	fmt.Printf("\nname's with length 4\ntotal\t: %d\ndata\t: %v\n", len(nmLen4), nmLen4)
 }
 
 // function multiple return
@@ -157,4 +175,17 @@ func findMax(numbers []int, max int) (int, func() []int) {
 	return len(res), func() []int {
 		return res
 	}
+}
+
+// function sebagai parameter
+func filter(data []string, callback func(str string) bool) []string {
+	var res []string
+
+	for _, each := range data {
+		if filtered := callback(each); filtered {
+			res = append(res, each)
+		}
+	}
+
+	return res
 }
