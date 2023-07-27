@@ -34,6 +34,17 @@ func main() {
 	var hasil, hasilLagi = calculate(10.1)
 	fmt.Println(hasil, hasilLagi)
 	fmt.Println(math.Pow(2, 3))
+
+	// Variadic function
+	fmt.Println()
+	var rataRata = hitungRataRata(1, 2, 3, 3, 3, 3, 3, 3, 3, 4, 5, 6, 7, 7, 8, 2, 3, 9, 12, 12, 33, 4, 5, 66, 6, 6)
+	fmt.Println(rataRata)
+
+	// variadic function slice parameter
+	fmt.Println()
+	var hobies = []string{"membaca", "nonton film", "coding", "belajar"}
+	var nameAndHobie = displayHobies("fani", hobies...)
+	fmt.Println(nameAndHobie)
 }
 
 // function multiple return
@@ -57,4 +68,26 @@ func randomWithRange(min, max int) int {
 func printMessage(message string, arr []string) {
 	var nameString = strings.Join(arr, ",")
 	fmt.Println(message, nameString)
+}
+
+// Variadic function
+func hitungRataRata(numbers ...int) string {
+	var total int = 0
+
+	for _, number := range numbers {
+		total = total + number
+	}
+
+	var rataRata float64 = float64(total) / float64(len(numbers))
+	var msg = fmt.Sprintf("rata rata nilai adalah %.2f", rataRata)
+
+	return msg
+}
+
+// variadic function slice parameter
+func displayHobies(name string, hobies ...string) string {
+	var hobiku = strings.Join(hobies, ",")
+	var msg = fmt.Sprintf("hallo nama saya %s hobi saya adalah : \n\t%s\n", name, hobiku)
+
+	return msg
 }

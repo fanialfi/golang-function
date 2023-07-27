@@ -17,7 +17,10 @@ contoh penggunaan function dengan parameter :
 ```go
 package main
 
-import "fmt"
+import (
+  "fmt"
+  "strings"
+)
 
 func main(){
   const data = [3]string{"fani","alfi","fanialfi"}
@@ -66,7 +69,7 @@ Jika sebuah function dijalankan dan menemukan keyword `return` dimana dibawah ke
 
 Untuk function dengan parameter dimana tipe data parameter-nya sama, maka bisa cukup tuliskan tipe data-nya sekali saja di akhir.
 
-Selain digunakan untuk mengembalikan value keyword `return` juga bisa digunakan untuk menghentikan proses dalam sebuah blok kode dimana ia dipakai.
+Selain digunakan untuk mengembalikan value, keyword `return` juga bisa digunakan untuk menghentikan proses dalam sebuah blok kode dimana ia dipakai.
 
 Jika ada kebutuhan dimana data yang dikembalikan harus banyak, biasanya digunakan tipe data `map` atau `slice`,dan juga GO menyediakan kapabilitas bagi programmer untuk membuat function memiliki banyak return.
 
@@ -126,3 +129,81 @@ beberapa hal baru diatas yang perlu dibahas
 - penggunaan konstanta `math.Pi`
 
   `math.Pi` adalah konstanta yang merepresentasikan **pi** atau **22/7**
+
+
+## Variadic function
+
+merupakan konsep atau cara pembuatan function dengan parameter sejenis yang tak terbatas / banyak, sifatnya mirip seperti _slice_, nilai yang disisipkan bertipe data sama, dan untuk mengaksesnya sama, dengan menggunakan index.
+
+untuk mendeklarasikan parameter Variadic seperti mendeklarasikan parameter pada umumnya, bedanya parameter variadic saat mendeklarasikan parameter tepat sebelum jenis tipe datanya ditambahkan tanda titik 3 (`...`) yang nantinya semua parameter yang dikirim akan ditampung oleh variabel tersebut.
+
+`func contoh(names ...string){}`
+
+contoh penerapan :
+
+```go
+package main
+
+import "fmt"
+
+func main(){
+  var rataRata = hitungRataRata(1,2,3,4,5,6,7,8,9,10)
+  var msg = fmt.Sprintf("rata ratanya adalah : %.2f",rataRata)
+  fmt.Println(msg)
+}
+
+func hitungRataRata(numbers ...int)float64{
+  var total int = 0
+
+  for _, number := range numbers{
+    total += number
+  }
+
+  var rataRata = float64(total) / float64(len(numbers))
+
+  return rataRata
+}
+```
+
+pada function `hitungRataRata`, parameter `numbers` disisipkan dengan titik 3 (`...`) menandakan bahwa parameter tersebut adalah sebuah parameter variadic bertipe `int`.
+
+pemanggilan function tersebut sama seperti biasa, hanya saja jumplah parameter-nya bisa banyak.
+
+beberapa penjelasan dari kode diatas :
+
+- penggunaan function `fmt.Sprintf()`
+
+  function `fmt.Sprintf()` ini pada dasarnya sama seperti `fmt.Printf()` hanya saja tidak menampilkan nilai, melainkan mengebalikan nilainya dalam bentuk string.
+  Selain `fmt.Sprintf()` ada juga `fmt.Sprint()` dan `fmt.Sprintln()`.
+- penggunaan function `float64()`
+
+  sebelumnya kita sudah tau bahwa `float64` merupakan tipe data, tipe yang dilulis sebagai function (ada kurungnya) berguna untuk **casting**, casting sendiri adalah teknik untuk mengkonversi tipe data ke tipe data yang lain.
+
+#
+ operasi bilangan (perkalian, pembagian, penjumplahan, pengurangan, dll) di GO hanya bisa dilakukan jika tipe data-nya sama. maka dari itu diperlukanlah adanya casting tipe data.
+
+slice juga bisa digunakan sebagai parameter variadic, caranya dengan menambahkan titik 3 (`...`) setelah menuliskan variabel bertipe slice saat penggunaan function.
+
+```go
+package main
+
+import (
+  "fmt"
+  "strings"
+)
+
+func main(){
+  var hobies = []string{"membaca","menulis","memantun"}
+  var hobiku = cetakHobies("fani",hobies...)
+  fmt.Println(hobiku)
+}
+
+func cetakHobies(nama string, hobi ...string)string{
+  var hobies = strings.Join(hobi,",")
+  var msg = fmt.Sprintf("hallo nama saya adalah %s, hobi saya adalah \n\t%s\n",nama,hobies)
+
+  return msg
+}
+```
+
+dari contoh di atas parameter variadic dikombinasikan dengan parameter biasa, jika mengkombinasikan parameter variadic dengan parameter biasa, maka syaratnya adalah parameter variadic tersebut harus diletakkan di paling akhir.
